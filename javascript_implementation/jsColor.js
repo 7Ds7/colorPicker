@@ -2,7 +2,8 @@
 	window.jsColorPicker = function(selectors, config) {
 		var renderCallback = function(colors, mode) {
 				var options = this,
-					ctx = options.ctx || document,
+					ctx = options.ctx,
+					showValue =  options.showValue,
 					input = options.input,
 					patch = options.patch,
 					RGB = colors.RND.rgb,
@@ -15,7 +16,7 @@
 					colorMode = input.getAttribute('data-colorMode');
 
 				patch.style.cssText =
-					'color:' + (colors.rgbaMixCustom.luminance > 0.22 ? '#222' : '#ddd') + ';' + // Black...???
+					'color:' + (options.showValue ? (colors.rgbaMixCustom.luminance > 0.22 ? '#222' : '#ddd') : RGBAText ) + ';' + // Black...???
 					'background-color:' + RGBAText + ';' +
 					'filter:' + (options.isIE8 ? 'progid:DXImageTransform.Microsoft.gradient(' + // IE<9
 						'startColorstr=#' + AHEX + ',' + 'endColorstr=#' + AHEX + ')' : '');
@@ -70,6 +71,8 @@
 						input: elm,
 						patch: elm,
 						isIE8: !!document.all && !document.addEventListener, // Opera???
+						ctx: config.ctx || document,
+						showValue: config.showValue || true,
 						// *** animationSpeed: 200,
 						// *** draggable: true,
 						margin: {left: -1, top: 2},
