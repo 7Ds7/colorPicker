@@ -2,6 +2,7 @@
 	window.jsColorPicker = function(selectors, config) {
 		var renderCallback = function(colors, mode) {
 				var options = this,
+					ctx = options.ctx || document,
 					input = options.input,
 					patch = options.patch,
 					RGB = colors.RND.rgb,
@@ -90,7 +91,7 @@
 					};
 
 				for (var n in config) {
-					initConfig[n] = config[n]; 
+					initConfig[n] = config[n];
 				}
 				return new initConfig.klass(initConfig);
 			},
@@ -110,7 +111,7 @@
 							waitTimer = 0;
 
 						options.color = extractValue(elm); // brings color to default on reset
-						colorPickerUI.style.cssText = 
+						colorPickerUI.style.cssText =
 							'position: absolute;' + (!colorPickers[index].cssIsReady ? 'display: none;' : '') +
 							'left:' + (position.left + options.margin.left - atrect.left) + 'px;' +
 							'top:' + (position.top + +input.offsetHeight + options.margin.top - atrect.top) + 'px;';
@@ -165,9 +166,10 @@
 					window[onOff]('mousedown', mousDownListener);
 				}
 			},
+
 			// this is a way to prevent data binding on HTMLElements
 			colorPickers = window.jsColorPicker.colorPickers || [],
-			elms = document.querySelectorAll(selectors),
+			elms = config.ctx.querySelectorAll(selectors),
 			testColors = new window.Colors({customBG: config.customBG, allMixDetails: true});
 
 		window.jsColorPicker.colorPickers = colorPickers;
